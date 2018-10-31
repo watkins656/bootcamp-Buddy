@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Star Wars - Express</title>
+  <title>bootCamp_Buddy</title>
   <!-- Latest compiled and minified CSS & JS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -16,7 +16,7 @@
 
   <div class="container">
     <div class="jumbotron">
-      <h1>KU Coding Bootcamp Wiki</h1>
+      <h1>KU bootCamp_Buddy</h1>
       <h3>Come here for panopto videos or other collaborative study info from class sessions!</h3>
       <hr>
       <a href="/"><button class="btn btn-danger btn-lg"><span class="fa fa-eye"></span> View Sessions </button></a>
@@ -74,12 +74,14 @@
     // Question: What does this code do?
     $("#add-btn").on("click", function (event) {
       event.preventDefault();
+   
+
       var newSession = {
-        SessionID: $("#Session-ID").val().trim(),
-        SessionName: $("#Session-Name").val().trim(),
-        SessionDate: $("#Session-Date").val().trim(),
-        SessionInstructor: $("#Session-Instructor").val().trim(),
-        SessionVideoLink: $("#Session-Video-Link").val().trim()
+ id: $("#Session-ID").val().trim(),
+ name: $("#Session-Name").val().trim(),
+ date: $("#Session-Date").val().trim(),
+ instructor: $("#Session-Instructor").val().trim(),
+ video: $("#Session-Video-Link").val().trim()
       };
 
       // Question: What does this code do??
