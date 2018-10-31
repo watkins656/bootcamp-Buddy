@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Star Wars - Express</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1>KU Coding Bootcamp Wiki</h1>
+      <h3>Come here for panopto videos or other collaborative study info from class sessions!</h3>
+      <hr>
+      <a href="/"><button class="btn btn-danger btn-lg"><span class="fa fa-eye"></span> View Sessions </button></a>
+    </div>
+    <div class="row">
+
+      <div class="col-12">
+
+        <div class="card">
+          <div class="card-header">
+            <h3><strong>Add Session Info</strong></h3>
+          </div>
+          <div class="card-body">
+            <form method="POST" role="form">
+
+              <div class="form-group">
+                <label for="Session-ID">Session-ID</label>
+                <input type="text" class="form-control" id="Session-ID">
+              </div>
+
+              <div class="form-group">
+                <label for="Session-Name">Session-Name</label>
+                <input type="text" class="form-control" id="Session-Name">
+              </div>
+
+              <div class="form-group">
+                <label for="Session-Date">Session-Date</label>
+                <input type="text" class="form-control" id="Session-Date">
+              </div>
+
+              <div class="form-group">
+              <label for="Session-Instructor">Session-Instructor</label>
+                <input type="text" class="form-control" id="Session-Instructor">
+              </div>
+
+              <div class="form-group">
+              <label for="Session-Video-Link">Session-Video-Link</label>
+                <input type="text" class="form-control" id="Session-Video-Link">
+              </div>
+
+            </form>
+            <br>
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary btn-md" id="add-btn"><span class="fa fa-fire"></span> Add to
+                the Force</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // Question: What does this code do?
+    $("#add-btn").on("click", function (event) {
+      event.preventDefault();
+      var newSession = {
+        SessionID: $("#Session-ID").val().trim(),
+        SessionName: $("#Session-Name").val().trim(),
+        SessionDate: $("#Session-Date").val().trim(),
+        SessionInstructor: $("#Session-Instructor").val().trim(),
+        SessionVideoLink: $("#Session-Video-Link").val().trim()
+      };
+
+      // Question: What does this code do??
+      $.post("/api/sessions", newSession)
+        .then(function (data) {
+          console.log("add.html", data);
+          alert("Adding session...");
+        });
+    });
+  </script>
+
+</body>
+
+</html>

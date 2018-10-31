@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Star Wars - Express</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1>KU Coding Bootcamp Wiki</h1>
+      <h3>Come here for panopto videos or other collaborative study info from class sessions!</h3>
+      <hr>
+      <a href="/add"><button class="btn btn-danger btn-lg"><span class="fa fa-plus"></span> Add New Session info</button></a>
+    </div>
+    <div class="row">
+
+      <div class="col-12">
+
+        <div class="card mb-4">
+          <div class="card-header">
+            <h3><strong>Session Search</strong></h3>
+          </div>
+          <div class="card-body">
+            <input type="text" id="Session-search" class="form-control">
+            <br>
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary btn-md" id="search-btn"><span class="fa fa-search"></span>
+                Search by Session Number for now (e.g. 8.1)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3><strong>Sessions Available</strong></h3>
+          </div>
+          <div class="card-body">
+            <h2 id="name">Session 1.1 - The Zen of Coding</h2>
+            <div id="stats">
+              <h3><strong>Date:</strong> <span id="date">2018-07-30</span></h3>
+              <h3><strong>Instructor:</strong> <span id="instructor">Ryan LaRue</span></h3>
+              <h3><strong>Panopto video:</strong> <span id="force-points"> <a href="https://codingbootcamp.hosted.panopto.com/Panopto/Pvideos/Viewer.aspx?id=0e3cdb54-68f4-49fc-88d1-a92e000097e4">
+                    Click Here
+                  </a></span></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $("#search-btn").on("click", function () {
+      var searchedSession = $("#Session-search").val().trim();
+console.log(searchedSession);
+      // Using a RegEx Pattern to remove spaces from searchedSession
+      // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+
+      $.get("/api/sessions/" + searchedSession, function (data) {
+        console.log(data);
+        if (data) {
+          $("#stats").show();
+          $("#name").text("Session "+ data.id + " - " + data.name);
+          $("#date").text(data.date);
+          $("#instructor").text(data.instructor);
+          $("#video").text(data.video);
+                  }
+        else {
+          $("#date").text("The force is not strong with this one. Your Session was not found.");
+          $("#stats").hide();
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
