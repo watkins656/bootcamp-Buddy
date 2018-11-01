@@ -1,0 +1,11 @@
+"development":{
+    "username": "root",
+    "password": process.env.mysqlpassword,
+    "database": "bootcamp_Buddy",
+    "host": "localhost",
+    "dialect": "mysql",    
+}
+"production":{
+    "use_env_variable":"JAWS_DB_URL",
+    "dialect":"mysql"
+}
