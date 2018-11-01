@@ -3,10 +3,11 @@ let mysql = require("mysql");
 
 let connection;
 
-if(process.env.JAWSDB_URL){
+if (process.env.JAWSDB_URL) {
 
-connection=mysql.createConnection(process.env.JAWSDB_URL)}
-else{
+  connection = mysql.createConnection(process.env.JAWSDB_URL)
+}
+else {
   mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -16,8 +17,8 @@ else{
   });
 }
 connection.connect(function (err) {
-    if (err) throw err;
-    console.log("connected as id " + connection.threadId + "\n");
+  if (err) throw err;
+  console.log("connected as id " + connection.threadId + "\n");
 
 });
 // Dependencies
@@ -36,9 +37,9 @@ app.use(express.json());
 
 // Star Wars sessions (DATA)
 // =============================================================
-let Session = function (date, id, instructor, name, video) {
+let Session = function (date, number, instructor, name, video) {
   this.date = date;
-  this.id = id;
+  this.number = number;
   this.instructor = instructor;
   this.name = name;
   this.video = video;
@@ -131,6 +132,18 @@ function addSessions() {
   ));
 }
 console.log(sessions);
+sessions.forEach(session => {
+  addSession(session);
+});
+function addSession(session) {
+  let query = connection.query(
+    "INSERT INTO sessions SET ?",
+    session,
+    function (err, res) {
+      console.log(res.affectedRows + " new session added!\n");
+    }
+  )
+}
 
 // Routes
 // =============================================================
@@ -156,7 +169,7 @@ app.get("/api/sessions/:session", function (req, res) {
   console.log(chosen);
 
   for (var i = 0; i < sessions.length; i++) {
-    if (chosen === sessions[i].id) {
+    if (chosen === sessions[i].number) {
       return res.json(sessions[i]);
     }
   }
@@ -174,7 +187,7 @@ app.post("/api/sessions", function (req, res) {
   console.log(newsession);
 
   sessions.push(newsession);
-
+  addSession(newsession);
   res.json(newsession);
 });
 
