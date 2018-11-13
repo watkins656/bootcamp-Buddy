@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body>
@@ -38,7 +38,81 @@
             </div>
           </div>
         </div>
+        <div id="vueList">
+          <ul v-if="!isListEmpty">
+            <li v-for="(item, index) in displayList" :key="index" :todo="item" />
+            {{item.task}}
+          </ul>
+        </div>
 
+        <script>
+          new Vue({
+            el: "#vueList",
+            data: {
+              todosAreFiltered: false,
+              taskFilter: '',
+              newTask: '',
+              list: [
+                {
+                  task: 'Buy milk',
+                  completed: true
+                },
+                {
+                  task: 'Stop at Postoffice',
+                  completed: false
+                },
+                {
+                  task: 'Do Express Homework',
+                  completed: false
+                }
+              ]
+            },
+            computed: {
+              isListEmpty() {
+                return this.list.length === 0
+              },
+              filteredList() {
+                return this.list.filter(todo => {
+                  return todo.task.toLowerCase().includes(this.taskFilter.toLowerCase())
+                })
+              },
+              displayList() {
+                if (this.todosAreFiltered) {
+                  return this.filteredList.filter((todo) => !todo.completed)
+                } else {
+                  return this.filteredList
+                }
+              }
+            },
+
+            methods: {
+              addTask() {
+                this.list.push({
+                  task: this.newTask,
+                  completed: false
+                })
+
+                this.newTask = ''
+              },
+              clearTasks() {
+                this.list = []
+              },
+              clearFilter() {
+                this.taskFilter = ''
+              },
+              deleteTodo(todoToDelete) {
+                this.list.forEach((todo, index) => {
+                  if (todo.task === todoToDelete.task) {
+                    this.list.splice(index, 1)
+                  }
+                })
+              }
+            }
+
+
+          })
+
+        </script>
         <div class="card">
           <div class="card-header">
             <h3><strong>Sessions Available</strong></h3>
@@ -61,7 +135,7 @@
   <script type="text/javascript">
     $("#search-btn").on("click", function () {
       var searchedSession = $("#Session-search").val().trim();
-console.log(searchedSession);
+      console.log(searchedSession);
       // Using a RegEx Pattern to remove spaces from searchedSession
       // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
 
@@ -69,13 +143,13 @@ console.log(searchedSession);
         console.log(data);
         if (data) {
           $("#stats").show();
-          $("#name").text("Session "+ data.id + " - " + data.name);
+          $("#name").text("Session " + data.id + " - " + data.name);
           $("#date").text(data.date);
           $("#instructor").text(data.instructor);
           $("#video").text(data.video);
-                  }
+        }
         else {
-          $("#date").text("The force is not strong with this one. Your Session was not found.");
+          $("#date").text("Session was not found.");
           $("#stats").hide();
         }
       });
@@ -84,18 +158,3 @@ console.log(searchedSession);
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

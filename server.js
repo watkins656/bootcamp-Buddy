@@ -1,14 +1,16 @@
 let dotenv = require("dotenv").config();
 let mysql = require("mysql");
-
+let moment = require("moment");
+let mySQLPassword = process.env.MYSQL_PASSWORD;
 let connection;
 
 if (process.env.JAWSDB_URL) {
-
+  console.log('using JawsDB');
   connection = mysql.createConnection(process.env.JAWSDB_URL)
 }
 else {
-  mysql.createConnection({
+  console.log('not using JawsDB');
+  connection =   mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
@@ -38,7 +40,7 @@ app.use(express.json());
 // Star Wars sessions (DATA)
 // =============================================================
 let Session = function (date, number, instructor, name, video) {
-  this.date = date;
+  this.date = moment(date).format('YYYY-MM-DD');
   this.number = number;
   this.instructor = instructor;
   this.name = name;
@@ -140,6 +142,9 @@ function addSession(session) {
     "INSERT INTO sessions SET ?",
     session,
     function (err, res) {
+      if(err)
+      console.log(err);
+      else
       console.log(res.affectedRows + " new session added!\n");
     }
   )
@@ -181,6 +186,7 @@ app.get("/api/sessions/:session", function (req, res) {
 app.post("/api/sessions", function (req, res) {
   // req.body hosts is equal to the JSON post sent from the user
   // This works because of our body parsing middleware
+  console.log(req.body);
   var newsession = req.body;
 
 
