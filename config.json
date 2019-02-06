@@ -1,6 +1,6 @@
 "development":{
     "username": "root",
-    "password": process.env.mysqlpassword,
+    "password": process.env.MYSQL_PASSWORD,
     "database": "bootcamp_Buddy",
     "host": "localhost",
     "dialect": "mysql",    
